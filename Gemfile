@@ -1,0 +1,10 @@
+source 'https://rubygems.org'
+
+gem 'sfn'
+gem 'sparkle-pack-aws-my-s3-buckets',      :path => '/Users/gswallow/src/sparkle-pack-aws-my-s3-buckets'
+gem 'sparkle-pack-aws-my-security-groups', :path => '/Users/gswallow/src/sparkle-pack-aws-my-security-groups'
+gem 'sparkle-pack-aws-my-sns-topics',      :path => '/Users/gswallow/src/sparkle-pack-aws-my-sns-topics'
+gem 'sparkle-pack-aws-ebs-volumes',        :path => '/Users/gswallow/src/sparkle-pack-aws-ebs-volumes'
+gem 'sparkle-pack-aws-my-subnets',         :path => '/Users/gswallow/src/sparkle-pack-aws-my-subnets'
+gem 'sparkle-pack-aws-availability-zones'
+gem 'sparkle-pack-cfn-init-chef',          :path => '/Users/gswallow/src/sparkle-pack-cfn-init-chef'
