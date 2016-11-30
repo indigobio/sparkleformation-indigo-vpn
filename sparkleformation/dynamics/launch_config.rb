@@ -5,7 +5,6 @@ SparkleFormation.dynamic(:launch_config) do |_name, _config = {}|
   _config[:iam_role]             ||= "#{_name}_i_a_m_role".to_sym
   _config[:chef_run_list]        ||= 'role[base]'
   _config[:chef_version]         ||= '12.4.0'
-  _config[:extra_bootstrap]      ||= nil # a registry, if defined.  Make sure to add newlines as '\n'.
 
   parameters("#{_name}_instance_type".to_sym) do
     type 'String'
@@ -63,44 +62,47 @@ SparkleFormation.dynamic(:launch_config) do |_name, _config = {}|
     description 'The size of the root volume (/dev/sda1) in gigabytes'
   end
 
-  if _config.fetch(:create_ebs_volumes, false)
-    conditions.set!(
-        "#{_name}_volumes_are_io1".to_sym,
-        equals!(ref!("#{_name}_ebs_volume_type".to_sym), 'io1')
-    )
+  # _config[:volume_count] has to be set to non-zero while compiling the template.
+  # The number of block device mappings are coded into the json file.
+  if _config.fetch(:volume_count, 0).to_i > 0
 
-    parameters("#{_name}_ebs_volume_size".to_sym) do
-      type 'Number'
-      min_value '1'
-      max_value '1000'
-      default _config[:volume_size] || '100'
-    end
+    conditions.set!(
+      "#{_name}_volumes_are_io1".to_sym,
+      equals!(ref!("#{_name}_ebs_volume_type".to_sym), 'io1')
+    )
 
     parameters("#{_name}_ebs_volume_type".to_sym) do
       type 'String'
-      allowed_values _array('standard', 'gp2', 'io1')
-      default _config[:volume_type] || 'gp2'
-      description 'Magnetic (standard), General Purpose (gp2), or Provisioned IOPS (io1)'
+      allowed_values ['gp2', 'io1']
+      default _config.fetch(:volume_type, 'gp2')
+      description 'EBS volume type: General Purpose (gp2) or Provisioned IOPS (io1).  Provisioned IOPS costs more.'
     end
 
     parameters("#{_name}_ebs_provisioned_iops".to_sym) do
       type 'Number'
       min_value '1'
       max_value '4000'
-      default _config[:piops] || '300'
+      default _config.fetch(:provisioned_iops, '300')
+    end
+
+    parameters("#{_name}_ebs_volume_size".to_sym) do
+      type 'Number'
+      min_value '1'
+      max_value '1000'
+      default _config.fetch(:volume_size, '100')
     end
 
     parameters("#{_name}_delete_ebs_volume_on_termination".to_sym) do
       type 'String'
       allowed_values ['true', 'false']
-      default _config[:del_on_term] || 'true'
+      default _config.fetch(:delete_on_termination, 'true')
     end
 
     parameters("#{_name}_ebs_optimized".to_sym) do
       type 'String'
       allowed_values _array('true', 'false')
-      default _config[:ebs_optimized] || 'false'
-      description 'Create an EBS-optimized instance (additional charges apply)'
+      default _config.fetch(:ebs_optimized, 'false')
+      description 'Create an EBS-optimized instance (instance type restrictions and additional charges apply)'
     end
   end
 
@@ -112,7 +114,16 @@ SparkleFormation.dynamic(:launch_config) do |_name, _config = {}|
     associate_public_ip_address ref!("#{_name}_associate_public_ip_address".to_sym)
     key_name ref!(:ssh_key_pair)
     security_groups _config[:security_groups]
-    registry!(:ebs_volumes)
+    if _config.fetch(:volume_count, 0).to_i > 0
+      block_device_mappings registry!(:ebs_volumes,
+                                      :io1_condition => "#{_name.capitalize}VolumesAreIo1",
+                                      :volume_count => _config[:volume_count],
+                                      :volume_size => ref!("#{_name}_ebs_volume_size".to_sym),
+                                      :provisioned_iops => ref!("#{_name}_ebs_provisioned_iops".to_sym),
+                                      :delete_on_termination => ref!("#{_name}_delete_ebs_volume_on_termination".to_sym)
+                                     )
+      ebs_optimized ref!("#{_name}_ebs_optimized".to_sym)
+    end
     user_data registry!(:user_data, _name,
                         :iam_role => ref!(_config[:iam_role]),
                         :launch_config => "#{_name.capitalize}AutoScalingLaunchConfiguration",
