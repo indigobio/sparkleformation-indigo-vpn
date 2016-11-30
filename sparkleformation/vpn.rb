@@ -26,7 +26,8 @@ EOF
              [
                { :cidr_ip => '0.0.0.0/0', :ip_protocol => 'udp', :from_port => '1194', :to_port => '1194' },
                { :cidr_ip => ref!(:allow_ssh_from), :ip_protocol => 'tcp', :from_port => '22', :to_port => '22' }
-             ])
+             ]
+          )
 
   dynamic!(:security_group_ingress, 'private-to-nat-all',
            :source_sg => registry!(:my_security_group_id, 'private_sg'),
@@ -53,9 +54,9 @@ EOF
            :iam_instance_profile => 'VpnIAMInstanceProfile',
            :iam_role => 'VpnIAMRole',
            :public_ips => 'true',
-           :chef_run_list => 'role[base],role[openvpn_as]',
+           :chef_run_list => ENV['run_list'],
            :security_groups => _array(ref!(:vpn_ec2_security_group)),
-  )
+          )
 
   dynamic!(:auto_scaling_group, 'vpn',
            :min_size => 0,
@@ -63,5 +64,6 @@ EOF
            :max_size => 1,
            :launch_config => :vpn_auto_scaling_launch_configuration,
            :subnet_ids => registry!(:my_public_subnet_ids),
-           :notification_topic => registry!(:my_sns_topics, ENV['notification_topic']))
+           :notification_topic => registry!(:my_sns_topics, ENV['notification_topic'])
+          )
 end

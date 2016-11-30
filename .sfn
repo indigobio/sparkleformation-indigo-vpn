@@ -5,6 +5,7 @@
 Configuration.new do
   #   Load SparklePacks
   sparkle_pack [
+    'sparkle-pack-aws-instance-types',
     'sparkle-pack-aws-my-s3-buckets',
     'sparkle-pack-aws-my-security-groups',
     'sparkle-pack-aws-my-sns-topics',

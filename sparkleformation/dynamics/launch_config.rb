@@ -9,7 +9,7 @@ SparkleFormation.dynamic(:launch_config) do |_name, _config = {}|
 
   parameters("#{_name}_instance_type".to_sym) do
     type 'String'
-    allowed_values %w(t2.small m3.medium c3.large)
+    allowed_values registry!(:ec2_instance_types)
     default _config[:instance_type] || 't2.small'
   end
 
