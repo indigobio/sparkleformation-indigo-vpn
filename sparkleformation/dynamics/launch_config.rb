@@ -4,7 +4,6 @@ SparkleFormation.dynamic(:launch_config) do |_name, _config = {}|
   _config[:iam_instance_profile] ||= "#{_name}_i_a_m_instance_profile".to_sym
   _config[:iam_role]             ||= "#{_name}_i_a_m_role".to_sym
   _config[:chef_run_list]        ||= 'role[base]'
-  _config[:chef_version]         ||= '12.4.0'
 
   parameters("#{_name}_instance_type".to_sym) do
     type 'String'
@@ -30,28 +29,6 @@ SparkleFormation.dynamic(:launch_config) do |_name, _config = {}|
     type 'CommaDelimitedList'
     default _config[:chef_run_list]
     description 'The run list to run when Chef client is invoked'
-  end
-
-  parameters(:chef_validation_client_name) do
-    type 'String'
-    allowed_pattern "[\\x20-\\x7E]*"
-    default _config[:chef_validation_client_name] || 'product_dev-validator'
-    description 'Chef validation client name; see https://docs.chef.io/chef_private_keys.html'
-    constraint_description 'can only contain ASCII characters'
-  end
-
-  parameters(:chef_server) do
-    type 'String'
-    allowed_pattern "[\\x20-\\x7E]*"
-    constraint_description 'can only contain ASCII characters'
-    default _config[:chef_server] || 'https://api.opscode.com/organizations/product_dev'
-  end
-
-  parameters(:chef_version) do
-    type 'String'
-    allowed_pattern "[\\x20-\\x7E]*"
-    constraint_description 'can only contain ASCII characters'
-    default _config[:chef_version] || 'latest'
   end
 
   parameters(:root_volume_size) do

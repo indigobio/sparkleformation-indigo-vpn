@@ -1,8 +1,8 @@
 ENV['sg']                 ||= 'vpn_sg'
-ENV['run_list']           ||= 'role[base],role[openvpn_as]'
+ENV['chef_run_list']      ||= 'role[base],role[openvpn_as]'
 ENV['notification_topic'] ||= "#{ENV['org']}-#{ENV['environment']}-deregister-chef-node"
 
-SparkleFormation.new(:vpn, :provider => :aws).load(:base, :ssh_key_pair, :trusty_ami).overrides do
+SparkleFormation.new(:vpn, :provider => :aws).load(:base, :chef_base, :ssh_key_pair, :trusty_ami).overrides do
   description <<"EOF"
 OpenVPN EC2 instance, configured by Chef.  Route53 record: vpn.#{ENV['public_domain']}.
 EOF
@@ -54,7 +54,7 @@ EOF
            :iam_instance_profile => 'VpnIAMInstanceProfile',
            :iam_role => 'VpnIAMRole',
            :public_ips => 'true',
-           :chef_run_list => ENV['run_list'],
+           :chef_run_list => ENV['chef_run_list'],
            :security_groups => _array(ref!(:vpn_ec2_security_group)),
           )
 

@@ -1,35 +1,47 @@
-PATH
-  remote: /Users/gswallow/src/sparkle-pack-aws-ebs-volumes
+GIT
+  remote: https://github.com/gswallow/sparkle-pack-aws-ebs-volumes.git
+  revision: 0da6dda692cb7075b5c9eec59aff198439fd338d
   specs:
     sparkle-pack-aws-ebs-volumes (0.0.1)
       aws-sdk-core (~> 2)
 
-PATH
-  remote: /Users/gswallow/src/sparkle-pack-aws-my-s3-buckets
+GIT
+  remote: https://github.com/gswallow/sparkle-pack-aws-instance-types.git
+  revision: 55e71f7a664e0eb84773e3ab01af7f44b56c9d18
+  specs:
+    sparkle-pack-aws-instance-types (0.0.1)
+
+GIT
+  remote: https://github.com/gswallow/sparkle-pack-aws-my-s3-buckets.git
+  revision: c3f5761592f2373e0950a514964780740e02d708
   specs:
     sparkle-pack-aws-my-s3-buckets (0.0.1)
       aws-sdk-core (~> 2)
 
-PATH
-  remote: /Users/gswallow/src/sparkle-pack-aws-my-security-groups
+GIT
+  remote: https://github.com/gswallow/sparkle-pack-aws-my-security-groups.git
+  revision: e48861773036d9de87f2d217964d2c984a7e9ad1
   specs:
     sparkle-pack-aws-my-security-groups (0.0.1)
       aws-sdk-core (~> 2)
 
-PATH
-  remote: /Users/gswallow/src/sparkle-pack-aws-my-sns-topics
+GIT
+  remote: https://github.com/gswallow/sparkle-pack-aws-my-sns-topics.git
+  revision: 228496812903043e055ccf76aab5fd5e9b64fbc1
   specs:
     sparkle-pack-aws-my-sns-topics (0.0.1)
       aws-sdk-core (~> 2)
 
-PATH
-  remote: /Users/gswallow/src/sparkle-pack-aws-my-subnets
+GIT
+  remote: https://github.com/gswallow/sparkle-pack-aws-my-subnets.git
+  revision: a489699ed6473168a7ef9579c5f481595dec35b7
   specs:
     sparkle-pack-aws-my-subnets (0.0.1)
       aws-sdk-core (~> 2)
 
-PATH
-  remote: /Users/gswallow/src/sparkle-pack-cfn-init-chef
+GIT
+  remote: https://github.com/gswallow/sparkle-pack-cfn-init-chef.git
+  revision: 447062a81a6074c81addb7643c5b611ee2435af8
   specs:
     sparkle-pack-cfn-init-chef (0.0.4)
       sparkle_formation
@@ -41,7 +53,7 @@ GEM
       public_suffix (~> 2.0, >= 2.0.2)
     attribute_struct (0.3.4)
       bogo (>= 0.1.31, < 0.3.0)
-    aws-sdk-core (2.6.26)
+    aws-sdk-core (2.6.30)
       aws-sigv4 (~> 1.0)
       jmespath (~> 1.0)
     aws-sigv4 (1.0.0)
@@ -65,7 +77,7 @@ GEM
     colored (1.2)
     command_line_reporter (3.3.6)
       colored (>= 1.2)
-    domain_name (0.5.20161021)
+    domain_name (0.5.20161129)
       unf (>= 0.0.5, < 1.0.0)
     graph (2.8.2)
     hashdiff (0.2.3)
@@ -136,6 +148,7 @@ DEPENDENCIES
   sfn
   sparkle-pack-aws-availability-zones
   sparkle-pack-aws-ebs-volumes!
+  sparkle-pack-aws-instance-types!
   sparkle-pack-aws-my-s3-buckets!
   sparkle-pack-aws-my-security-groups!
   sparkle-pack-aws-my-sns-topics!
