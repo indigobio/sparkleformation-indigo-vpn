@@ -107,7 +107,7 @@ SparkleFormation.dynamic(:launch_config) do |_name, _config = {}|
   end
 
   dynamic!(:auto_scaling_launch_configuration, _name).properties do
-    image_id map!(_config[:ami_map], ref!('AWS::Region'), :ami)
+    image_id map!(_config[:ami_map], region!, :ami)
     instance_type ref!("#{_name}_instance_type".to_sym)
     instance_monitoring ref!("#{_name}_instance_monitoring".to_sym)
     iam_instance_profile ref!(_config[:iam_instance_profile])
