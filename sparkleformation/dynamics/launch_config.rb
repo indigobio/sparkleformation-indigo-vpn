@@ -4,6 +4,7 @@ SparkleFormation.dynamic(:launch_config) do |_name, _config = {}|
   _config[:iam_instance_profile] ||= "#{_name}_i_a_m_instance_profile".to_sym
   _config[:iam_role]             ||= "#{_name}_i_a_m_role".to_sym
   _config[:chef_run_list]        ||= 'role[base]'
+  _config[:chef_version]         ||= '12.4.0'
 
   parameters("#{_name}_instance_type".to_sym) do
     type 'String'
@@ -25,13 +26,13 @@ SparkleFormation.dynamic(:launch_config) do |_name, _config = {}|
     description 'Associate public IP addresses to instances'
   end
 
-  parameters(:chef_run_list) do
+  parameters("#{_name}_chef_run_list".to_sym) do
     type 'CommaDelimitedList'
     default _config[:chef_run_list]
     description 'The run list to run when Chef client is invoked'
   end
 
-  parameters(:root_volume_size) do
+  parameters("#{_name}_root_volume_size".to_sym) do
     type 'Number'
     min_value '1'
     max_value '1000'
@@ -91,20 +92,21 @@ SparkleFormation.dynamic(:launch_config) do |_name, _config = {}|
     associate_public_ip_address ref!("#{_name}_associate_public_ip_address".to_sym)
     key_name ref!(:ssh_key_pair)
     security_groups _config[:security_groups]
-    if _config.fetch(:volume_count, 0).to_i > 0
-      block_device_mappings registry!(:ebs_volumes,
-                                      :io1_condition => "#{_name.capitalize}VolumesAreIo1",
-                                      :volume_count => _config[:volume_count],
-                                      :volume_size => ref!("#{_name}_ebs_volume_size".to_sym),
-                                      :provisioned_iops => ref!("#{_name}_ebs_provisioned_iops".to_sym),
-                                      :delete_on_termination => ref!("#{_name}_delete_ebs_volume_on_termination".to_sym)
-                                     )
-      ebs_optimized ref!("#{_name}_ebs_optimized".to_sym)
-    end
+    block_device_mappings registry!(:ebs_volumes,
+                                    :io1_condition => "#{_name.capitalize}VolumesAreIo1",
+                                    :restore_condition => 'RestoreFromSnapshots',
+                                    :volume_count => _config[:volume_count],
+                                    :volume_size => ref!("#{_name}_ebs_volume_size".to_sym),
+                                    :provisioned_iops => ref!("#{_name}_ebs_provisioned_iops".to_sym),
+                                    :delete_on_termination => ref!("#{_name}_delete_ebs_volume_on_termination".to_sym),
+                                    :root_volume_size => ref!("#{_name}_root_volume_size".to_sym)
+                          )
+    ebs_optimized ref!("#{_name}_ebs_optimized".to_sym)
     user_data registry!(:user_data, _name,
                         :iam_role => ref!(_config[:iam_role]),
                         :launch_config => "#{_name.capitalize}AutoScalingLaunchConfiguration",
-                        :resource_id => "#{_name.capitalize}AutoScalingAutoScalingGroup")
+                        :resource_id => "#{_name.capitalize}AutoScalingAutoScalingGroup"
+                       )
   end
 
   dynamic!(:auto_scaling_launch_configuration, _name).registry!(:chef_client, _name,
@@ -114,7 +116,7 @@ SparkleFormation.dynamic(:launch_config) do |_name, _config = {}|
            :chef_run_list => ref!(:chef_run_list),
            :iam_role => ref!(_config[:iam_role]),
            :chef_validation_client => ref!(:chef_validation_client_name),
-           :chef_data_bag_secret =>  true
+           :chef_data_bag_secret => true
           )
 
   dynamic!(:auto_scaling_launch_configuration, _name).depends_on "#{_name.capitalize}IAMInstanceProfile"
