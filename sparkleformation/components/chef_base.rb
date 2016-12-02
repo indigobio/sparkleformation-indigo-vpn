@@ -1,7 +1,7 @@
 SparkleFormation.component(:chef_base) do
 
   ENV['chef_server']    ||= "https://api.opscode.com/organizations/#{ENV['chef_org']}"
-  ENV['chef_validator'] ||= "'#{ENV['chef_org']}-validator'"
+  ENV['chef_validator'] ||= "#{ENV['chef_org']}-validator"
   ENV['chef_version']   ||= 'latest'
 
   parameters(:chef_server) do
