@@ -1,6 +1,6 @@
 ENV['sg']                 ||= 'vpn_sg'
 ENV['chef_run_list']      ||= 'role[base],role[openvpn_as]'
-ENV['notification_topic'] ||= "#{ENV['org']}-#{ENV['environment']}-deregister-chef-node"
+ENV['notification_topic'] ||= "#{ENV['org']}_#{ENV['environment']}_deregister_chef_node"
 
 SparkleFormation.new(:vpn, :provider => :aws).load(:base, :chef_base, :ssh_key_pair, :trusty_ami).overrides do
   description <<"EOF"
