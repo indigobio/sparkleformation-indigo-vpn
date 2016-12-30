@@ -1,13 +1,13 @@
 GIT
   remote: https://github.com/gswallow/sparkle-pack-aws-ebs-volumes.git
-  revision: 0da6dda692cb7075b5c9eec59aff198439fd338d
+  revision: ee4b965ec6431bcd61a8770a038328269f30914b
   specs:
     sparkle-pack-aws-ebs-volumes (0.0.1)
       aws-sdk-core (~> 2)
 
 GIT
   remote: https://github.com/gswallow/sparkle-pack-aws-instance-types.git
-  revision: 55e71f7a664e0eb84773e3ab01af7f44b56c9d18
+  revision: dbdb287de6ea829ae4f69e185fd0fc8b4204bc8b
   specs:
     sparkle-pack-aws-instance-types (0.0.1)
 
@@ -20,7 +20,7 @@ GIT
 
 GIT
   remote: https://github.com/gswallow/sparkle-pack-aws-my-security-groups.git
-  revision: e48861773036d9de87f2d217964d2c984a7e9ad1
+  revision: 0b37110cd25407b4de0311e5ce2ae90acfde31e7
   specs:
     sparkle-pack-aws-my-security-groups (0.0.1)
       aws-sdk-core (~> 2)
@@ -34,14 +34,14 @@ GIT
 
 GIT
   remote: https://github.com/gswallow/sparkle-pack-aws-my-subnets.git
-  revision: a489699ed6473168a7ef9579c5f481595dec35b7
+  revision: 1fac129a8e870765bd706b801ed808d5a0a5c539
   specs:
     sparkle-pack-aws-my-subnets (0.0.1)
       aws-sdk-core (~> 2)
 
 GIT
   remote: https://github.com/gswallow/sparkle-pack-cfn-init-chef.git
-  revision: 447062a81a6074c81addb7643c5b611ee2435af8
+  revision: ff56f0ca1e2d6969950856c5e3a116e486a7114d
   specs:
     sparkle-pack-cfn-init-chef (0.0.4)
       sparkle_formation
@@ -53,7 +53,7 @@ GEM
       public_suffix (~> 2.0, >= 2.0.2)
     attribute_struct (0.3.4)
       bogo (>= 0.1.31, < 0.3.0)
-    aws-sdk-core (2.6.30)
+    aws-sdk-core (2.6.43)
       aws-sigv4 (~> 1.0)
       jmespath (~> 1.0)
     aws-sigv4 (1.0.0)
@@ -111,9 +111,9 @@ GEM
       mime-types-data (~> 3.2015)
     mime-types-data (3.2016.0521)
     multi_json (1.12.1)
-    multi_xml (0.5.5)
-    net-ssh (3.2.0)
-    paint (1.0.1)
+    multi_xml (0.6.0)
+    net-ssh (4.0.0)
+    paint (2.0.0)
     public_suffix (2.0.4)
     sfn (3.0.20)
       bogo-cli (>= 0.2.5, < 0.4)
