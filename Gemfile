@@ -9,3 +9,4 @@ gem 'sparkle-pack-aws-ebs-volumes',        :git => 'https://github.com/gswallow/
 gem 'sparkle-pack-aws-my-subnets',         :git => 'https://github.com/gswallow/sparkle-pack-aws-my-subnets.git'
 gem 'sparkle-pack-aws-availability-zones'
 gem 'sparkle-pack-cfn-init-chef',          :git => 'https://github.com/gswallow/sparkle-pack-cfn-init-chef.git'
+gem 'sparkle-pack-git-rev-outputs',        :git => 'https://github.com/gswallow/sparkle-pack-git-rev-outputs.git'

@@ -12,7 +12,8 @@ Configuration.new do
     'sparkle-pack-aws-my-subnets',
     'sparkle-pack-aws-ebs-volumes',
     'sparkle-pack-aws-availability-zones',
-    'sparkle-pack-cfn-init-chef'
+    'sparkle-pack-cfn-init-chef',
+    'sparkle-pack-git-rev-outputs'
   ]
   #   Set style of stack nesting
   apply_nesting 'deep'
