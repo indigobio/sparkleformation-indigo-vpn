@@ -17,7 +17,7 @@ EOF
     type 'String'
     allowed_pattern "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})"
     default '127.0.0.1/32'
-    description 'Network to allow SSH from, to NAT instances. Note that the default of 127.0.0.1/32 effectively disables SSH access.'
+    description 'Network to allow SSH from, to VPN instances. Note that the default of 127.0.0.1/32 effectively disables SSH access.'
     constraint_description 'Must follow IP/mask notation (e.g. 192.168.1.0/24)'
   end
 
@@ -29,7 +29,7 @@ EOF
              ]
           )
 
-  dynamic!(:security_group_ingress, 'private-to-nat-all',
+  dynamic!(:security_group_ingress, 'private-to-vpn-all',
            :source_sg => registry!(:my_security_group_id, 'private_sg'),
            :ip_protocol => '-1',
            :from_port => '-1',
@@ -37,7 +37,7 @@ EOF
            :target_sg => attr!(:vpn_ec2_security_group, 'GroupId')
           )
 
-  dynamic!(:security_group_ingress, 'nat-to-private-all',
+  dynamic!(:security_group_ingress, 'vpn-to-private-all',
            :source_sg => attr!(:vpn_ec2_security_group, 'GroupId'),
            :ip_protocol => '-1',
            :from_port => '-1',
